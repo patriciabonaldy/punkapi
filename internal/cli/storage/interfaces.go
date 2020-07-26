@@ -1,6 +1,8 @@
 package cli
 
+import beer "github.com/patriciabonaldy/punkapi/internal"
+
 // BeerRepo definiton of methods to access a data beer
 type BeerRepo interface {
-	GetBeers() ([]Beer, error)
+	GetBeers() ([]beer.Beer, error)
 }

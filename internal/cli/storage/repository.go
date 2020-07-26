@@ -7,6 +7,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+
+	"github.com/patriciabonaldy/punkapi/internal/errors"
+
+	beer "github.com/patriciabonaldy/punkapi/internal"
 )
 
 const (
@@ -22,37 +26,23 @@ func NewRepository() BeerRepo {
 	return &repository{url: punkapiEndpoint}
 }
 
-// SaveBeers  data from csv
-func SaveBeers(nameFile string, beers []Beer) error {
-	var arraysBeers [][]string
-
-	for _, beer := range beers {
-		arraysBeers = append(arraysBeers, beer.BeerRow())
-		//arraysBeers = append(arraysBeers, beerscli.ToArray(beer))
-		//beer.CSVrow(f)
-	}
-	saveToCsv(nameFile, arraysBeers)
-
-	return nil
-}
-
 // GetBeers fetch beers data from csv
-func (r *repository) GetBeers() ([]Beer, error) {
-	var beers []Beer
+func (r *repository) GetBeers() ([]beer.Beer, error) {
+	var beers []beer.Beer
 	response, err := http.Get(fmt.Sprintf("%v", r.url))
 
 	if err != nil {
-		return nil, err
+		return nil, errors.WrapUnreacheableBeerErr(err, "error obteniendo endpoint %v", r.url)
 	}
 
 	contents, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		return nil, errors.WrapUnreacheableBeerErr(err, "error leyendo el response %v", r.url)
 	}
 
 	err = json.Unmarshal(contents, &beers)
 	if err != nil {
-		return nil, err
+		return nil, errors.WrapUnreacheableBeerErr(err, "error parsing to beers")
 	}
 
 	return beers, nil
@@ -61,7 +51,7 @@ func (r *repository) GetBeers() ([]Beer, error) {
 func saveToCsv(nameFile string, records [][]string) error {
 	f, err := os.Create(nameFile)
 	defer f.Close()
-	CSVheader(f)
+	//CSVheader(f)
 	csvWriter := csv.NewWriter(f)
 
 	csvWriter.WriteAll(records)

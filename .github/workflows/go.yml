@@ -23,7 +23,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build
-      run: go build -v  cmd/beers-cli/main.go 
+      working-directory: ./cmd/beers-cli
+      run: go build -v  
 
     - name: Test
       run: go test -v  internal/cli/fetching/service_test.go

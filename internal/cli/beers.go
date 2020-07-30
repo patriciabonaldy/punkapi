@@ -20,6 +20,7 @@ const nameFileFlag = "nameFile"
 
 // InitBeersCmd initialize beers command
 func InitBeersCmd(fetching service.Service) *cobra.Command {
+
 	beersCmd := &cobra.Command{
 		Use:   "beers",
 		Short: "Print data about beers",
@@ -37,29 +38,29 @@ func runBeersFn(fetching service.Service) CobraFn {
 		nameFile := ""
 		id, _ := cmd.Flags().GetString(idFlag)
 		var beers []beerscli.Beer
+		var err error
 
 		if id == "" {
-			var err error
 			beers, err = fetching.FetchBeers()
-			if err != nil {
-				fmt.Println(err)
-			}
+
 		} else {
+			var beer beerscli.Beer
 			i, _ := strconv.Atoi(id)
-			beer, err := fetching.FetchByID(i)
+			beer, err = fetching.FetchByID(i)
 			beers = append(beers, beer)
-			if err != nil {
-				fmt.Println(err)
+		}
+
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(beers)
+			nameFile, _ = cmd.Flags().GetString(nameFileFlag)
+			if nameFile == "" {
+				nameFile = "beers.csv"
 			}
+			SaveBeers(nameFile, beers)
 		}
 
-		fmt.Println(beers)
-
-		nameFile, _ = cmd.Flags().GetString(nameFileFlag)
-		if nameFile == "" {
-			nameFile = "beers.csv"
-		}
-		SaveBeers(nameFile, beers)
 	}
 }
 
@@ -77,7 +78,6 @@ func SaveBeers(nameFile string, beers []beerscli.Beer) error {
 		bArray := beer.BeerRow()
 		arraysBeers = append(arraysBeers, bArray)
 	}
-	fmt.Println(arraysBeers)
 	saveToCsv(nameFile, arraysBeers)
 
 	return errString

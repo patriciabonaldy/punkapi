@@ -2,6 +2,7 @@ package fetching
 
 import (
 	"fmt"
+	"math"
 
 	beerscli "github.com/patriciabonaldy/punkapi/internal"
 	storage "github.com/patriciabonaldy/punkapi/internal/cli/storage"
@@ -42,10 +43,41 @@ func (r *service) FetchByID(id int) (beerscli.Beer, error) {
 	if err != nil {
 		return beerscli.Beer{}, err
 	}
-	for _, beer := range beers {
-		if beer.ProductID == id {
+
+	beersPerRoutine := 10
+	numRoutines := numOfRoutines(len(beers), beersPerRoutine)
+
+	b := make(chan beerscli.Beer)
+	done := make(chan bool, numRoutines)
+
+	for i := 0; i < numRoutines; i++ {
+		toSearch := make([]beerscli.Beer, beersPerRoutine)
+		copy(toSearch[:], beers[i:i+beersPerRoutine])
+
+		go func(beers []beerscli.Beer, b chan beerscli.Beer, done chan bool) {
+			for _, beer := range beers {
+				if beer.ProductID == id {
+					b <- beer
+				}
+			}
+			done <- true
+		}(toSearch, b, done)
+	}
+
+	var beer beerscli.Beer
+	i := 0
+	for i < numRoutines {
+		select {
+		case beer = <-b:
 			return beer, nil
+		case <-done:
+			i++
 		}
 	}
+
 	return beerscli.Beer{}, errors.NewUnreacheableBeerErr("No existe la beer con id %v", id)
+}
+
+func numOfRoutines(numOfBeers, beersPerRoutine int) int {
+	return int(math.Ceil(float64(numOfBeers) / float64(beersPerRoutine)))
 }

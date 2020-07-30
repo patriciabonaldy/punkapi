@@ -2,6 +2,7 @@ package cli
 
 import (
 	"encoding/csv"
+	"fmt"
 	"io"
 	"strconv"
 
@@ -103,5 +104,6 @@ func NewBeer(productID int, name string, tagline string, firstBrewed string, des
 		ImageURL:    imageURL,
 		Price:       price,
 	}
+	fmt.Println("se crea objeto Beer")
 	return
 }

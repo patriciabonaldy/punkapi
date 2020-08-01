@@ -17,13 +17,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'go test -v ./internal/cli/fetching'
+                sh 'go test -v ./internal/cli/fetching/service_test.go'
             }
         }
         stage('Deliver') {
             steps {
                 sh 'go build -v  ./cmd/beers-cli'
-                sh 'go test -v ./internal/cli/fetching'
+                sh 'go test -v  ./internal/cli/fetching/service_test.go'
                 sh 'go run ./cmd/beers-cli/main.go'
                 
             }

@@ -11,6 +11,10 @@ pipeline {
     }
     stages {
         stage('Build') {
+            environment {
+                GO111MODULE= 'on'
+                APP_NAME = 'PUNKAPI'
+            }
             steps {
                 sh 'go build -v  $(APP_NAME)/cmd/beers-cli'
             }

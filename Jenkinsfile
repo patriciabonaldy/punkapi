@@ -16,7 +16,7 @@ pipeline {
                 APP_NAME = 'PUNKAPI'
             }
             steps {
-                sh 'go build -v  $(APP_NAME)/cmd/beers-cli'
+                sh 'go build -v  ./cmd/beers-cli'
             }
         }
         stage('Test') {

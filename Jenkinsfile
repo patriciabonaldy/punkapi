@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        CI = 'true',
+        CI='true',
         GO111MODULE=on ,
         CGO_ENABLED=0 ,
         GOOS=linux ,

@@ -6,7 +6,6 @@ pipeline {
         }
     }
     environment {
-        CI='true',
         GO111MODULE= 'on' ,
         APP_NAME=PUNKAPI
     }

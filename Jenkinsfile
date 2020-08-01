@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        GO111MODULE= 'on' ,
+        GO111MODULE= 'on'
         APP_NAME=PUNKAPI
     }
     stages {

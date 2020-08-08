@@ -4,9 +4,10 @@ import (
 	"os"
 	"runtime/pprof"
 
+	fetch "github.com/patriciabonaldy/punkapi/application/fetching"
+	service "github.com/patriciabonaldy/punkapi/application/usescases"
+	repo "github.com/patriciabonaldy/punkapi/infrastructure/adapter/repository"
 	"github.com/patriciabonaldy/punkapi/internal/cli"
-	service "github.com/patriciabonaldy/punkapi/internal/cli/fetching"
-	storage "github.com/patriciabonaldy/punkapi/internal/cli/storage"
 	"github.com/spf13/cobra"
 )
 
@@ -17,10 +18,11 @@ func main() {
 	pprof.StartCPUProfile(f)
 	defer pprof.StopCPUProfile()
 
-	repo := storage.NewRepository()
-	fetch := service.NewFetchy(repo)
+	repo := repo.NewRepository()
+	fetch := fetch.NewFetchy(repo)
+	service := service.NewService(fetch)
 	rootCmd := &cobra.Command{Use: "beers-cli"}
-	rootCmd.AddCommand(cli.InitBeersCmd(fetch))
+	rootCmd.AddCommand(cli.InitBeersCmd(service))
 	rootCmd.Execute()
 
 	//Memory profiling code start here

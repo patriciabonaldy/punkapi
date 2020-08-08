@@ -1,4 +1,4 @@
-package cli
+package entity
 
 import (
 	"encoding/csv"
@@ -6,7 +6,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/patriciabonaldy/punkapi/internal/errors"
+	"github.com/patriciabonaldy/punkapi/infrastructure/errors"
 )
 
 // Volume representation the volume of beer into data struct
@@ -106,4 +106,9 @@ func NewBeer(productID int, name string, tagline string, firstBrewed string, des
 	}
 	fmt.Println("se crea objeto Beer")
 	return
+}
+
+//NewBeerEmpty NewBeer
+func NewBeerEmpty() (b Beer) {
+	return Beer{}
 }

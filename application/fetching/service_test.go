@@ -4,12 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	service "github.com/patriciabonaldy/punkapi/internal/cli/fetching"
-	storage "github.com/patriciabonaldy/punkapi/internal/cli/storage"
-	mock "github.com/patriciabonaldy/punkapi/internal/cli/storage/mock"
+	beerscli "github.com/patriciabonaldy/punkapi/domain/entity"
+	service "github.com/patriciabonaldy/punkapi/domain/ports"
+	mock "github.com/patriciabonaldy/punkapi/domain/repository/mock"
 	"github.com/stretchr/testify/assert"
-
-	beerscli "github.com/patriciabonaldy/punkapi/internal"
 )
 
 func TestFetchBeers(t *testing.T) {
@@ -45,7 +43,7 @@ func buildMockBeers() []beerscli.Beer {
 			"https://pro.codely.tv/library/introduccion-a-go-tu-primera-app/89042/path/step/58651371/",
 		),
 		beerscli.NewBeer(
-			127,
+			124,
 			"Mad Jack Mixer",
 			"Molson",
 			"Canada",
@@ -54,7 +52,7 @@ func buildMockBeers() []beerscli.Beer {
 			"https://pro.codely.tv/library/introduccion-a-go-tu-primera-app/89042/path/step/58651371/",
 		),
 		beerscli.NewBeer(
-			8520130,
+			8520139,
 			"Grolsch 0.0",
 			"Non-Alcoholic Beer",
 			"Canada",
@@ -63,7 +61,7 @@ func buildMockBeers() []beerscli.Beer {
 			"https://pro.codely.tv/library/introduccion-a-go-tu-primera-app/89042/path/step/58651371/",
 		),
 		beerscli.NewBeer(
-			127,
+			155,
 			"Mad Jack Mixer",
 			"Molson",
 			"Canada",
@@ -72,7 +70,7 @@ func buildMockBeers() []beerscli.Beer {
 			"https://pro.codely.tv/library/introduccion-a-go-tu-primera-app/89042/path/step/58651371/",
 		),
 		beerscli.NewBeer(
-			8520130,
+			8520160,
 			"Grolsch 0.0",
 			"Non-Alcoholic Beer",
 			"Canada",
@@ -216,7 +214,7 @@ func TestFetchByID(t *testing.T) {
 
 	//se defina una tabla de set de datos
 	tests := map[string]struct {
-		repo  storage.BeerRepo
+		repo  repo.BeerRepo
 		input int
 		want  int
 		err   error

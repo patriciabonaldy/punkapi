@@ -27,5 +27,5 @@ jobs:
       run: go build -v  
 
     - name: Test
-      working-directory: ./internal/cli/fetching
+      working-directory: ./application/fetching
       run: go test -v  service_test.go

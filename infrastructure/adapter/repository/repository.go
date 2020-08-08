@@ -1,4 +1,4 @@
-package cli
+package repository
 
 import (
 	"encoding/csv"
@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/patriciabonaldy/punkapi/internal/errors"
-
-	beer "github.com/patriciabonaldy/punkapi/internal"
+	beer "github.com/patriciabonaldy/punkapi/domain/entity"
+	ports "github.com/patriciabonaldy/punkapi/domain/ports"
+	"github.com/patriciabonaldy/punkapi/infrastructure/errors"
 )
 
 const (
@@ -22,7 +22,7 @@ type repository struct {
 }
 
 // NewRepository initialize csv repository
-func NewRepository() BeerRepo {
+func NewRepository() ports.BeerRepo {
 	return &repository{url: punkapiEndpoint}
 }
 

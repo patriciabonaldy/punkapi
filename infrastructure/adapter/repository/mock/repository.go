@@ -1,7 +1,7 @@
 package mock
 
 import (
-	beerscli "github.com/patriciabonaldy/punkapi/internal"
+	beerscli "github.com/patriciabonaldy/punkapi/domain/entity"
 	"github.com/stretchr/testify/mock"
 )
 

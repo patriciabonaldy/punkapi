@@ -4,9 +4,10 @@ import (
 	"errors"
 	"testing"
 
+	service "github.com/patriciabonaldy/punkapi/application/fetching"
 	beerscli "github.com/patriciabonaldy/punkapi/domain/entity"
-	service "github.com/patriciabonaldy/punkapi/domain/ports"
-	mock "github.com/patriciabonaldy/punkapi/domain/repository/mock"
+	ports "github.com/patriciabonaldy/punkapi/domain/ports"
+	mock "github.com/patriciabonaldy/punkapi/infrastructure/adapter/repository/mock"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -214,7 +215,7 @@ func TestFetchByID(t *testing.T) {
 
 	//se defina una tabla de set de datos
 	tests := map[string]struct {
-		repo  repo.BeerRepo
+		repo  ports.BeerRepo
 		input int
 		want  int
 		err   error

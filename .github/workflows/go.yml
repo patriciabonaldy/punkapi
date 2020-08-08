@@ -2,9 +2,9 @@ name: Go
 
 on:
   push:
-    branches: [ master ]
+    branches: [ refactorToHexagonal ]
   pull_request:
-    branches: [ master ]
+    branches: [ refactorToHexagonal ]
 
 jobs:
 

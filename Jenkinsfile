@@ -1,7 +1,7 @@
 pipeline {
     agent any
     // Install the desired Go version
-    def root = tool name: 'Go 1.14', type: 'go'
+    def root = tool name: '1.14', type: 'go'
     tools {
         go '1.14'
     }

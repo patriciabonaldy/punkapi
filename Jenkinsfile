@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                def root = tool name: 'Go 1.14', type: 'go'
+                def root = tool name: '1.14', type: 'go'
                 // Export environment variables pointing to the directory where Go was installed
                 withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
                     sh 'go version'

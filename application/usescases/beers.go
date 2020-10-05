@@ -2,13 +2,16 @@ package application
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
 
+	config "github.com/patriciabonaldy/punkapi/config"
 	beer "github.com/patriciabonaldy/punkapi/domain/entity"
 	svc "github.com/patriciabonaldy/punkapi/domain/ports"
+	repo "github.com/patriciabonaldy/punkapi/infrastructure/adapter/repository"
 )
 
 // BeerInterface definiton of methods to access a data beer
@@ -35,6 +38,20 @@ func (b *BeerService) FindBeers(id string) ([]beer.Beer, error) {
 
 	if id == "" {
 		beers, err = b.fetching.FetchBeers()
+		rabbit := repo.NewRabbitMQ()
+		if config.Conf.IPAddress != "" {
+			url := fmt.Sprintf("amqp://%v:%v@%v:%v", config.Conf.User, config.Conf.Password, config.Conf.IPAddress, config.Conf.Port)
+			rabbit.GetConn(url)
+			rabbit.QueueDeclare("beers.FindBeers")
+			beer, err := json.Marshal(beers)
+			fmt.Println(beer)
+			rabbit.SetMessage(beer)
+			err = rabbit.Publish("random-key")
+			if err != nil {
+				fmt.Println(err)
+				return nil, err
+			}
+		}
 
 	} else {
 		var beer beer.Beer

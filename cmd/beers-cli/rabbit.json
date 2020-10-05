@@ -1,0 +1,6 @@
+{
+    "server_address": "0.0.0.0",
+    "server_port": "5672",
+    "username" : "codelytv",
+    "password" : "c0d3ly"
+}

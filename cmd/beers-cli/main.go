@@ -6,10 +6,15 @@ import (
 
 	fetch "github.com/patriciabonaldy/punkapi/application/fetching"
 	service "github.com/patriciabonaldy/punkapi/application/usescases"
+	config "github.com/patriciabonaldy/punkapi/config"
 	repo "github.com/patriciabonaldy/punkapi/infrastructure/adapter/repository"
 	"github.com/patriciabonaldy/punkapi/internal/cli"
 	"github.com/spf13/cobra"
 )
+
+func init() {
+	config.LoadConfig("./rabbit.json")
+}
 
 func main() {
 	//CPU profiling code start here

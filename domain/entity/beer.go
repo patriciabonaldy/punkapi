@@ -7,7 +7,19 @@ import (
 	"strconv"
 
 	"github.com/patriciabonaldy/punkapi/infrastructure/errors"
+
+	"github.com/streadway/amqp"
 )
+
+//Conn struct
+type Conn struct {
+	Channel *amqp.Channel
+}
+
+//MessageToArray transforma struct a array
+func MessageToArray(message string) []byte {
+	return []byte(message)
+}
 
 // Volume representation the volume of beer into data struct
 type Volume struct {
